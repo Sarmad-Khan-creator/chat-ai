@@ -11,7 +11,7 @@ const DashboardLayout = ({ children }: Props) => {
     <main className="flex flex-row">
       <Sidebar />
       <div className="flex flex-col gap-10 w-full">
-        <Infobar />
+        <Infobar pathName='Home' pathurl='/' />
         {children}
       </div>
     </main>

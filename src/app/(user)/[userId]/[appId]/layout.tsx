@@ -1,6 +1,7 @@
-import { getChats } from "@/actions/chat.action";
-import ChatSidebar from "@/components/sidebar/chat-sidebar";
-import React from "react";
+import { getChats } from '@/actions/chat.action';
+import Infobar from '@/components/infobar/infobar';
+import ChatSidebar from '@/components/sidebar/chat-sidebar';
+import React from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -24,7 +25,10 @@ const UserLayout = async ({
         chatId={chatId}
         chats={chats!}
       />
-      {children}
+      <div className="flex flex-col gap-10 w-full">
+        <Infobar pathName="Dashboard" pathurl="/dashboard" />
+        {children}
+      </div>
     </div>
   );
 };

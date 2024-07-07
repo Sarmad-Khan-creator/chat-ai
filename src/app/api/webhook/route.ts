@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { createUser, deleteUser, updateUser } from "@/actions/user.action";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -87,6 +88,7 @@ export async function POST(req: Request) {
       email: evt.data.email_addresses[0].email_address,
     });
 
+    revalidatePath("/profile")
     return NextResponse.json({ message: "OK", user: updatedUser });
   }
 

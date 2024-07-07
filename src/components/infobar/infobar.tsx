@@ -4,17 +4,20 @@ import React from 'react';
 import Spinner from '../loader/loader';
 import { Loader2 } from 'lucide-react';
 
-type Props = {};
+type Props = {
+  pathName: string;
+  pathurl: string
+};
 
-const Infobar = (props: Props) => {
+const Infobar = ({ pathName, pathurl }: Props) => {
   return (
     <div className="w-full py-5 px-7 flex justify-end items-center">
       <div className="flex flex-row items-center gap-3">
         <Link
-          href="/"
+          href={pathurl}
           className="bg-[#E0A75E] hover:bg-[#F9D689] py-3 px-7 text-white rounded-sm"
         >
-          Home
+          {pathName}
         </Link>
         <ClerkLoading>
           <Loader2 className="animate-spin" />

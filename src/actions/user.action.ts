@@ -1,8 +1,10 @@
-"use server";
+'use server';
 
-import { client } from "@/lib/prisma";
-import { createUserProps } from "@/lib/types";
-import slugify from "slugify";
+import { client } from '@/lib/prisma';
+import { createUserProps } from '@/lib/types';
+import { clerkClient, currentUser } from '@clerk/nextjs/server';
+import { revalidatePath } from 'next/cache';
+import slugify from 'slugify';
 
 export type userProps = {
   clerkId: string;
@@ -21,7 +23,7 @@ export async function createUser({
     const user = await client.user.create({
       data: {
         slug: slugify(fullname!, {
-          replacement: "-",
+          replacement: '-',
           lower: true,
           trim: true,
         }),
@@ -50,7 +52,7 @@ export async function updateUser({
       },
       data: {
         slug: slugify(fullname!, {
-          replacement: "-",
+          replacement: '-',
           lower: true,
           trim: true,
         }),
@@ -59,6 +61,7 @@ export async function updateUser({
       },
     });
 
+    revalidatePath('/profile');
     return updateUser;
   } catch (error) {
     console.log(error);
@@ -78,3 +81,65 @@ export async function deleteUser(clerkId: string) {
     console.log(error);
   }
 }
+
+export const updateUserImage = async (imgUrl: string) => {
+  try {
+    const user = await currentUser();
+    const updatedUser = await clerkClient.users.updateUser(user?.id!, {
+      publicMetadata: {
+        imageUrl: imgUrl,
+      },
+    });
+
+    revalidatePath('/profile');
+    return updateUser;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserByClerkId = async () => {
+  try {
+    const clerkUser = await currentUser();
+    const user = await client.user.findUnique({
+      where: {
+        clerkId: clerkUser?.id as string,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserDetails = async (
+  firstName: string,
+  lastName: string,
+  bio: string
+) => {
+  const clerkUser = await currentUser();
+  const user = await getUserByClerkId();
+  try {
+    const updatedClerkUser = await clerkClient.users.updateUser(
+      clerkUser?.id!,
+      {
+        firstName: firstName,
+        lastName: lastName,
+      }
+    );
+
+    const updatedUser = await client.user.update({
+      where: {
+        id: user?.id,
+      },
+      data: {
+        bio,
+      },
+    });
+
+    revalidatePath('/profile');
+
+    return updatedUser;
+  } catch (error) {}
+};

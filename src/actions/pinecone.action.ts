@@ -6,6 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { PineconeStore } from "@langchain/pinecone";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+import { revalidatePath } from "next/cache";
 
 export type CreateAppProps = {
   title: string;
@@ -73,4 +74,8 @@ export const addApp = async ({
       maxConcurrency: 5, // Maximum number of batch requests to allow at once. Each batch is 1000 vectors.
     }
   );
+
+  revalidatePath("/dashboard")
+
+  return app
 };

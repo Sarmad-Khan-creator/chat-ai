@@ -1,4 +1,7 @@
-import React from "react";
+import { getAppById } from '@/actions/app.action';
+import { getChatById } from '@/actions/chat.action';
+import ChatArea from '@/components/chat/chat';
+import React from 'react';
 
 type Props = {
   params: {
@@ -9,11 +12,12 @@ type Props = {
 };
 
 const Chat = async ({ params: { userId, appId, chatId } }: Props) => {
-  return (
-    <div>
-      <h1>Chat Screen</h1>
-    </div>
-  );
+  const app = await getAppById(appId);
+  const chat = await getChatById(chatId);
+
+  console.log(chatId)
+
+  return <ChatArea app={app!} chat={chat!} />;
 };
 
 export default Chat;
