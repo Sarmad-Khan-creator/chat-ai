@@ -8,13 +8,12 @@ type Props = {
   params: {
     userId: string;
     appId: string;
-    chatId: string;
   };
 };
 
 const UserLayout = async ({
   children,
-  params: { userId, appId, chatId },
+  params: { userId, appId },
 }: Props) => {
   const chats = await getChats(appId);
   return (
@@ -22,7 +21,6 @@ const UserLayout = async ({
       <ChatSidebar
         userId={userId}
         appId={appId}
-        chatId={chatId}
         chats={chats!}
       />
       <div className="flex flex-col gap-10 w-full">
