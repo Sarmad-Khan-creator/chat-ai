@@ -11,7 +11,7 @@ type Props = {
 
 const Infobar = ({ pathName, pathurl }: Props) => {
   return (
-    <div className="w-full py-5 px-7 flex justify-end items-center">
+    <div className="w-full py-5 px-7 flex justify-end items-center max-sm:hidden">
       <div className="flex flex-row items-center gap-3">
         <Link
           href={pathurl}

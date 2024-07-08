@@ -10,7 +10,7 @@ import { useClerk } from '@clerk/nextjs';
 const Sidebar = () => {
   const { signOut } = useClerk()
   return (
-    <section className="flex flex-col h-screen sticky gap-16 px-3 py-5 shadow-lg">
+    <section className="flex flex-col h-screen sticky gap-16 px-3 py-5 shadow-lg max-sm:hidden">
       <div className="flex items-center gap-1 w-[250px]">
         <div className="relative w-[100px] h-[40px]">
           <Image src="/assets/logo.svg" alt="logo" fill />
