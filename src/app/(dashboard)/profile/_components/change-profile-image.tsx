@@ -80,9 +80,9 @@ const ChangeProfileImage = ({ clerkId, imgUrl }: Props) => {
 
   return (
     <div>
-      <div className="relative w-[150px] h-[150px] rounded-full cursor-pointer">
-        <Dialog open={isOpen}>
-          <DialogTrigger asChild>
+      <Dialog open={isOpen}>
+        <DialogTrigger asChild>
+          <div className="relative w-[150px] h-[150px] rounded-full cursor-pointer max-sm:w-[100px] max-sm:h-[100px]">
             <Image
               src={imgUrl}
               alt="profile photo"
@@ -90,42 +90,40 @@ const ChangeProfileImage = ({ clerkId, imgUrl }: Props) => {
               className="rounded-full"
               onClick={() => setIsOpen((prev) => (prev = true))}
             />
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Change Your profile Image</DialogTitle>
-            </DialogHeader>
+          </div>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change Your profile Image</DialogTitle>
+          </DialogHeader>
 
-            <form
-              onSubmit={onSubmit}
-              className="flex flex-col items-center justify-center gap-5"
-            >
-              <div className="relative w-[150px] h-[200px]">
-                <Image src={imageUrl} alt="profile" fill />
-              </div>
-              <input
-                type="file"
-                name="file"
-                accept="image/*"
-                onChange={handleChange}
-              />
-              <DialogFooter className="flex flex-row gap-5">
-                <Button
-                  type="submit"
-                  className="bg-primary-orange_main text-white hover:bg-primary-orange_hover"
-                >
-                  {loading ? <Spinner /> : 'Continue'}
-                </Button>
-                <DialogClose
-                  onClick={() => setIsOpen((prev) => (prev = false))}
-                >
-                  Close
-                </DialogClose>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col items-center justify-center gap-5"
+          >
+            <div className="relative w-[150px] h-[200px]">
+              <Image src={imageUrl} alt="profile" fill />
+            </div>
+            <input
+              type="file"
+              name="file"
+              accept="image/*"
+              onChange={handleChange}
+            />
+            <DialogFooter className="flex flex-row gap-5">
+              <Button
+                type="submit"
+                className="bg-primary-orange_main text-white hover:bg-primary-orange_hover"
+              >
+                {loading ? <Spinner /> : 'Continue'}
+              </Button>
+              <DialogClose onClick={() => setIsOpen((prev) => (prev = false))}>
+                Close
+              </DialogClose>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

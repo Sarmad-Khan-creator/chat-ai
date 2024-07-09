@@ -13,9 +13,10 @@ type Props = {
   userId: string;
   appId: string;
   chats: Chat[];
+  className: string;
 };
 
-const ChatSidebar = ({ userId, appId, chats }: Props) => {
+const ChatSidebar = ({ userId, appId, chats, className }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -26,11 +27,7 @@ const ChatSidebar = ({ userId, appId, chats }: Props) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       try {
-        const chat = await createChat(
-          appId,
-          inputValue,
-          `/${userId}/${appId}`
-        );
+        const chat = await createChat(appId, inputValue, `/${userId}/${appId}`);
         setIsEditing(false);
       } catch (error) {
         throw error;
@@ -39,9 +36,11 @@ const ChatSidebar = ({ userId, appId, chats }: Props) => {
   };
   const { signOut } = useClerk();
   return (
-    <section className="flex flex-col h-screen sticky justify-between px-3 py-5 shadow-lg">
-      <div className="flex flex-col gap-16">
-        <div className="flex items-center gap-1 w-[250px]">
+    <section
+      className={`flex flex-col h-screen sticky justify-between px-3 py-5 shadow-lg max-sm:shadow-none max-sm:h-[50vh] ${className}`}
+    >
+      <div className="flex flex-col gap-16 w-full">
+        <div className="flex items-center gap-1 w-[250px] max-sm:hidden">
           <div className="relative w-[100px] h-[40px]">
             <Image src="/assets/logo.svg" alt="logo" fill />
           </div>
@@ -86,13 +85,13 @@ const ChatSidebar = ({ userId, appId, chats }: Props) => {
       <div className="flex flex-col gap-3">
         <Link
           href={`/${userId}/${appId}/settings`}
-          className="w-[200px] py-2 px-3 flex items-center justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10"
+          className="w-[200px] py-2 px-3 flex items-center justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10 max-sm:bg-black/10"
         >
           <Settings />
           Settings
         </Link>
         <Button
-          className="w-[200px] flex items-center justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10"
+          className="w-[200px] flex items-center justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10 max-sm:bg-black/10"
           onClick={() => {
             signOut({ redirectUrl: '/' });
           }}

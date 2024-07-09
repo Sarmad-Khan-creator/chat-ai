@@ -55,14 +55,14 @@ const ChatArea = ({ app, chat }: Props) => {
   };
 
   return (
-    <div className="w-full flex flex-col justify-between h-screen max-h-screen">
-      <div className="w-full max-h-[70vh] overflow-y-auto px-16 flex flex-col gap-4">
+    <div className="w-full flex flex-col justify-between h-screen max-h-screen max-sm:h-[80vh] max-sm:max-h-[80vh]">
+      <div className="w-full max-h-[70vh] overflow-y-auto px-16 flex flex-col gap-4 max-sm:px-5">
         {conversation.map((conv, index) => {
           return (
             <div
               key={index}
               className={cn(
-                'max-w-[700px] w-fit p-2 rounded-md',
+                'max-w-[700px] max-sm:max-w-[90%] w-fit p-2 rounded-md',
                 index % 2 === 0 && 'self-end bg-gray-600 text-white',
                 index % 2 !== 0 && 'self-start bg-gray-400 text-white'
               )}
@@ -77,7 +77,7 @@ const ChatArea = ({ app, chat }: Props) => {
           </div>
         )}
       </div>
-      <div className="px-48 mb-2 sticky mt-3">
+      <div className="px-48 mb-2 sticky mt-3 max-sm:px-5">
         {error && <p className="text-red-500 text-xs">{error}</p>}
         <Input
           type="text"

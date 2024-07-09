@@ -74,7 +74,9 @@ const EditUserDetails = ({ username, userBio }: Props) => {
       <Dialog open={isOpen}>
         <DialogTrigger asChild>
           <Edit2Icon
-            className="cursor-pointer"
+            className="cursor-pointer max-sm:size-10"
+            width={40}
+            height={40}
             onClick={() => setIsOpen(true)}
           />
         </DialogTrigger>
@@ -148,7 +150,7 @@ const EditUserDetails = ({ username, userBio }: Props) => {
                 >
                   {isSubmitting ? <Spinner /> : 'Continue'}
                 </Button>
-                <DialogClose onClick={() => setIsOpen(false)}>
+                <DialogClose onClick={() => setIsOpen(false)} className='max-sm:mb-5 bg-gray-300 px-5 py-2 rounded-md'>
                   Cancel
                 </DialogClose>
               </DialogFooter>

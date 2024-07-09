@@ -74,7 +74,7 @@ const AddApp = (props: Props) => {
     <Dialog open={isOpen}>
       <DialogTrigger asChild>
         <Button
-          className="w-[150px] h-[150px] rounded-md flex items-center justify-center bg-gray-200 hover:bg-gray-300"
+          className="w-[150px] h-[150px] rounded-md flex items-center justify-center bg-gray-200 hover:bg-gray-300 max-sm:w-[250px] max-sm:h-[250px]"
           onClick={() => {
             setIsOpen(true);
           }}

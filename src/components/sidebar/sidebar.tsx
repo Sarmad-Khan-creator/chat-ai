@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { SidebarItemProps, sidebarItem } from '@/constants/sidebar';
 import { LogOutIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -7,10 +7,12 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { useClerk } from '@clerk/nextjs';
 
-const Sidebar = () => {
-  const { signOut } = useClerk()
+const Sidebar = ({ className }: { className?: string }) => {
+  const { signOut } = useClerk();
   return (
-    <section className="flex flex-col h-screen sticky gap-16 px-3 py-5 shadow-lg max-sm:hidden">
+    <section
+      className={`flex flex-col h-screen sticky gap-16 px-3 py-5 shadow-lg ${className}`}
+    >
       <div className="flex items-center gap-1 w-[250px]">
         <div className="relative w-[100px] h-[40px]">
           <Image src="/assets/logo.svg" alt="logo" fill />
@@ -34,7 +36,12 @@ const Sidebar = () => {
       </div>
 
       <div className="justify-self-end">
-        <Button className="w-[200px] flex items-center mt-[200px] justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10" onClick={() => { signOut({ redirectUrl: "/" }) }}>
+        <Button
+          className="w-[200px] flex items-center mt-[200px] justify-start gap-2 rounded-sm bg-transparent text-muted-foreground hover:bg-black/10"
+          onClick={() => {
+            signOut({ redirectUrl: '/' });
+          }}
+        >
           <LogOutIcon />
           Logout
         </Button>

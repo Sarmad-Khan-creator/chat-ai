@@ -90,7 +90,7 @@ const EditAppForm = ({ name, template, appId }: Props) => {
                   <Textarea
                     {...field}
                     placeholder="App Title"
-                    className="border border-gray-800"
+                    className="border border-gray-800 min-h-[250px]"
                   />
                 </FormControl>
                 <FormMessage />

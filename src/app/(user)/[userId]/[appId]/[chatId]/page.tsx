@@ -15,8 +15,6 @@ const Chat = async ({ params: { userId, appId, chatId } }: Props) => {
   const app = await getAppById(appId);
   const chat = await getChatById(chatId);
 
-  console.log(chatId)
-
   return <ChatArea app={app!} chat={chat!} />;
 };
 

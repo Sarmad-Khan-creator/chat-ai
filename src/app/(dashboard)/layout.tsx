@@ -1,9 +1,12 @@
 import Infobar from '@/components/infobar/infobar';
 import MobileNavbar from '@/components/mobile-navbar/mobile-navbar';
 import Sidebar from '@/components/sidebar/sidebar';
-import { MenuIcon } from 'lucide-react';
-import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { SheetClose } from '@/components/ui/sheet';
+import { SidebarItemProps, sidebarItem } from '@/constants/sidebar';
+import Link from 'next/link';
 import React from 'react';
+import MobileSheetItems from './_compoenents/mobile-sheet-items';
 
 type Props = {
   children: React.ReactNode;
@@ -12,9 +15,11 @@ type Props = {
 const DashboardLayout = ({ children }: Props) => {
   return (
     <main className="flex flex-row">
-      <Sidebar />
+      <Sidebar className="max-sm:hidden" />
       <div className="flex flex-col gap-10 w-full">
-        <MobileNavbar />
+        <MobileNavbar>
+          <MobileSheetItems />
+        </MobileNavbar>
         <Infobar pathName="Home" pathurl="/" />
         {children}
       </div>

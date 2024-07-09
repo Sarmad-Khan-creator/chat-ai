@@ -11,7 +11,7 @@ type Props = {
 const Settings = async ({ params: { appId } }: Props) => {
   const app = await getAppById(appId);
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center max-sm:mx-5">
       <EditAppForm name={app?.title!} template={app?.template!} appId={appId} />
     </div>
   );
