@@ -9,13 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { revalidatePath } from "next/cache";
 
-// export type CreateAppProps = {
-//   title: string;
-//   index: string;
-//   template: string;
-//   blob: string;
-// };
-
 export async function POST(req: NextRequest) {
   const data = await req.formData();
 
@@ -27,9 +20,6 @@ export async function POST(req: NextRequest) {
   if (!title || !index || !template || !file) {
     return NextResponse.json({ success: false });
   }
-
-  // const bytes = await file.arrayBuffer();
-  // const buffer = Buffer.from(bytes);
 
   const clerkUser = await currentUser();
 
