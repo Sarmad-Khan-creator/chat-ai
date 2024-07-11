@@ -1,21 +1,21 @@
-import { pc } from "@/lib/pinecone";
-import { client } from "@/lib/prisma";
-import slugify from "slugify";
-import { currentUser } from "@clerk/nextjs/server";
-import { PineconeStore } from "@langchain/pinecone";
-import { OpenAIEmbeddings } from "@langchain/openai";
-import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
-import { NextRequest, NextResponse } from "next/server";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { revalidatePath } from "next/cache";
+import { pc } from '@/lib/pinecone';
+import { client } from '@/lib/prisma';
+import slugify from 'slugify';
+import { currentUser } from '@clerk/nextjs/server';
+import { PineconeStore } from '@langchain/pinecone';
+import { OpenAIEmbeddings } from '@langchain/openai';
+import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf';
+import { NextRequest, NextResponse } from 'next/server';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(req: NextRequest) {
   const data = await req.formData();
 
-  const title: string | null = data.get("title") as unknown as string;
-  const index: string | null = data.get("index") as unknown as string;
-  const template: string | null = data.get("template") as unknown as string;
-  const file: File | null = data.get("file") as unknown as File;
+  const title: string | null = data.get('title') as unknown as string;
+  const index: string | null = data.get('index') as unknown as string;
+  const template: string | null = data.get('template') as unknown as string;
+  const file: File | null = data.get('file') as unknown as File;
 
   if (!title || !index || !template || !file) {
     return NextResponse.json({ success: false });
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   const app = await client.app.create({
     data: {
       slug: slugify(title, {
-        replacement: "-",
+        replacement: '-',
         lower: true,
         trim: true,
       }),
@@ -42,21 +42,21 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const chat = await client.chat.create({
+  await client.chat.create({
     data: {
       appId: app.id,
-      name: "untitled",
-      slug: "untitled",
+      name: 'untitled',
+      slug: 'untitled',
     },
   });
-  const createdIndex = await pc.createIndex({
+  await pc.createIndex({
     name: index,
     dimension: 1536, // Replace with your model dimensions
-    metric: "euclidean", // Replace with your model metric
+    metric: 'euclidean', // Replace with your model metric
     spec: {
       serverless: {
-        cloud: "aws",
-        region: "us-east-1",
+        cloud: 'aws',
+        region: 'us-east-1',
       },
     },
   });
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 500,
-    separators: ["\n\n", "\n", " ", ""],
+    separators: ['\n\n', '\n', ' ', ''],
     chunkOverlap: 100,
   });
 
@@ -83,11 +83,11 @@ export async function POST(req: NextRequest) {
     }),
     {
       pineconeIndex: pcIndex,
-      maxConcurrency: 5, // Maximum number of batch requests to allow at once. Each batch is 1000 vectors.
+      maxConcurrency: 5,
     }
   );
 
-  revalidatePath("/dashboard");
+  revalidatePath('/dashboard');
 
   return NextResponse.json({ success: true });
 }
