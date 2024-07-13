@@ -150,6 +150,7 @@ const AddApp = (props: Props) => {
                       type="file"
                       onChange={onUpload}
                       accept="application/pdf"
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -168,6 +169,7 @@ const AddApp = (props: Props) => {
                 onClick={() => {
                   setIsOpen(false);
                 }}
+                disabled={isSubmitting}
               >
                 Close
               </DialogClose>
