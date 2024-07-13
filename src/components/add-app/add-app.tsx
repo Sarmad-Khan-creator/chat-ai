@@ -61,7 +61,7 @@ const AddApp = (props: Props) => {
         formData.append('file', file);
       }
 
-      await axios.post('http://localhost:3000/api/pinecone', formData);
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, formData);
 
       setIsOpen(false);
     } catch (error) {

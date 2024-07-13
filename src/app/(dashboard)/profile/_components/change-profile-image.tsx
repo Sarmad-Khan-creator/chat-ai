@@ -55,9 +55,10 @@ const ChangeProfileImage = ({ clerkId, imgUrl }: Props) => {
         });
         return;
       }
+
       const formData = new FormData();
       formData.append('file', file!);
-      await fetch('http://localhost:3000/api/upload-image', {
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload-image`, {
         method: 'POST',
         body: formData,
       });
