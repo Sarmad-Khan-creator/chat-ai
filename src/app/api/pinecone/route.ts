@@ -1,4 +1,4 @@
-import { pc } from '@/lib/pinecone';
+
 import { client } from '@/lib/prisma';
 import slugify from 'slugify';
 import { currentUser } from '@clerk/nextjs/server';
@@ -8,6 +8,11 @@ import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf';
 import { NextRequest, NextResponse } from 'next/server';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { revalidatePath } from 'next/cache';
+import { Pinecone } from "@pinecone-database/pinecone";
+
+export const pc = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY!,
+});
 
 export async function POST(req: NextRequest) {
   const data = await req.formData();
