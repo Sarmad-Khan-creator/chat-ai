@@ -10,7 +10,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { revalidatePath } from 'next/cache';
 import { Pinecone } from "@pinecone-database/pinecone";
 
-export const pc = new Pinecone({
+const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
 });
 
