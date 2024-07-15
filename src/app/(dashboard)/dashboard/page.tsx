@@ -2,19 +2,23 @@ import { getAllApps } from "@/actions/app.action";
 import { getChat } from "@/actions/chat.action";
 import AddApp from "@/components/add-app/add-app";
 import { client } from "@/lib/prisma";
+import { App } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
-export const revalidate = 5
+const Dashboard = async () => {
+  const response = await fetch("/dashboard", {
+    method: "GET",
+    next: {
+      tags: ['allApps']
+    }
+  })
 
-type Props = {};
-
-const Dashboard = async (props: Props) => {
-  const apps = await getAllApps();
+  const apps = await response.json();
   return (
     <main className="px-10 flex flex-row flex-wrap gap-x-4 gap-y-6 max-sm:flex-col max-sm:items-center">
       <AddApp />
-      {apps.map(async (app) => {
+      {apps.map(async (app: App) => {
         const user = await client.user.findFirst({
           where: {
             id: app.userId,

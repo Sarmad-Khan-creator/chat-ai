@@ -1,4 +1,3 @@
-
 import { client } from '@/lib/prisma';
 import slugify from 'slugify';
 import { currentUser } from '@clerk/nextjs/server';
@@ -7,8 +6,8 @@ import { OpenAIEmbeddings } from '@langchain/openai';
 import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf';
 import { NextRequest, NextResponse } from 'next/server';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
-import { revalidatePath } from 'next/cache';
-import { Pinecone } from "@pinecone-database/pinecone";
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { Pinecone } from '@pinecone-database/pinecone';
 
 const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
@@ -39,7 +38,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (!pinecondeIndex) {
-    return NextResponse.json({ error: "Invalid Index name formate. Do not use spaces and special characters" });
+    return NextResponse.json({
+      error:
+        'Invalid Index name formate. Do not use spaces and special characters',
+    });
   }
 
   const clerkUser = await currentUser();
@@ -97,7 +99,29 @@ export async function POST(req: NextRequest) {
     }
   );
 
-  revalidatePath('/dashboard');
+  revalidateTag('/allApps');
 
   return NextResponse.json({ success: true });
+}
+
+export async function GET() {
+  const user = await currentUser();
+
+  try {
+    const loggedInUser = await client.user.findFirst({
+      where: {
+        clerkId: user?.id,
+      },
+    });
+
+    const apps = await client.app.findMany({
+      where: {
+        userId: loggedInUser?.id,
+      },
+    });
+
+    return NextResponse.json({ apps });
+  } catch (error) {
+    throw error;
+  }
 }
