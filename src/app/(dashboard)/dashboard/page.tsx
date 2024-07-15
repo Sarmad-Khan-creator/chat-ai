@@ -5,6 +5,8 @@ import { client } from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
+export const revalidate = 5
+
 type Props = {};
 
 const Dashboard = async (props: Props) => {
