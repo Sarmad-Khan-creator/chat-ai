@@ -7,7 +7,7 @@ import Link from "next/link";
 import React from "react";
 
 const Dashboard = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/dashboard`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/all-apps`, {
     method: "GET",
     next: {
       tags: ['allApps']
