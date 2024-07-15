@@ -18,7 +18,7 @@ const Dashboard = async () => {
   return (
     <main className="px-10 flex flex-row flex-wrap gap-x-4 gap-y-6 max-sm:flex-col max-sm:items-center">
       <AddApp />
-      {apps.map(async (app: App) => {
+      {JSON.parse(apps).map(async (app: App) => {
         const user = await client.user.findFirst({
           where: {
             id: app.userId,
