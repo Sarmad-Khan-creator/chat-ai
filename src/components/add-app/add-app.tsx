@@ -80,6 +80,12 @@ const AddApp = (props: Props) => {
         });
       }
 
+      toast({
+        title: 'Success ✅',
+        description: 'App added successfully',
+        variant: 'success',
+      });
+
       setIsOpen(false);
     } catch (error) {
       toast({
