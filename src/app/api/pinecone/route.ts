@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { Pinecone } from '@pinecone-database/pinecone';
+import { createApp } from '@/actions/app.action';
 
 const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
@@ -44,33 +45,10 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const clerkUser = await currentUser();
-
-  const user = await client.user.findFirst({
-    where: {
-      clerkId: clerkUser?.id,
-    },
-  });
-  const app = await client.app.create({
-    data: {
-      slug: slugify(title, {
-        replacement: '-',
-        lower: true,
-        trim: true,
-      }),
-      title,
-      template,
-      index,
-      userId: user?.id,
-    },
-  });
-
-  await client.chat.create({
-    data: {
-      appId: app.id,
-      name: 'untitled',
-      slug: 'untitled',
-    },
+  const app = await createApp({
+    title,
+    template,
+    index,
   });
 
   const loader = new WebPDFLoader(file, {
@@ -98,10 +76,6 @@ export async function POST(req: NextRequest) {
       maxConcurrency: 5,
     }
   );
-
-  const url = req.nextUrl.clone();
-
-  revalidatePath(`${url}/dashboard`);
 
   return NextResponse.json({ success: true });
 }

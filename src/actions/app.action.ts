@@ -4,6 +4,7 @@ import { pc } from '@/lib/pinecone';
 import { client } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
+import slugify from 'slugify';
 
 export const getAllApps = async () => {
   const user = await currentUser();
@@ -80,11 +81,56 @@ export const deleteApp = async (appId: string, index: string) => {
       },
     });
 
-    const removeIndex = pc.deleteIndex(index)
+    const removeIndex = pc.deleteIndex(index);
 
     revalidatePath('/profile');
     return deletedApp;
   } catch (error) {
     throw error;
+  }
+};
+
+export const createApp = async ({
+  title,
+  template,
+  index,
+}: {
+  title: string;
+  template: string;
+  index: string;
+}) => {
+  try {
+    const clerkUser = await currentUser();
+
+    const user = await client.user.findFirst({
+      where: {
+        clerkId: clerkUser?.id,
+      },
+    });
+    const app = await client.app.create({
+      data: {
+        slug: slugify(title, {
+          replacement: '-',
+          lower: true,
+          trim: true,
+        }),
+        title,
+        template,
+        index,
+        userId: user?.id,
+      },
+    });
+
+    await client.chat.create({
+      data: {
+        appId: app.id,
+        name: 'untitled',
+        slug: 'untitled',
+      },
+    });
+
+    revalidatePath("/dashboard")
+  } catch (error) {
+    throw error
   }
 };
