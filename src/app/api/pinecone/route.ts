@@ -107,6 +107,10 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   const user = await currentUser();
 
+  if(!user) {
+    return
+  }
+
   try {
     const loggedInUser = await client.user.findFirst({
       where: {
