@@ -27,6 +27,7 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Spinner from '../loader/loader';
 import axios from 'axios';
+import { toast } from '../ui/use-toast';
 
 type Props = {};
 
@@ -61,11 +62,23 @@ const AddApp = (props: Props) => {
         formData.append('file', file);
       }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, formData);
-
+      const app = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, formData);
+      const response = await app.data
+      if (response.error) {
+        toast({
+          title: "Error ✖️",
+          description: response.error,
+          variant: "destructive"
+        })
+      }
+      
       setIsOpen(false);
     } catch (error) {
-      throw error;
+      toast({
+        title: "Error ✖️",
+        description: "Something went wrong",
+        variant: "destructive"
+      })
     }
   };
 

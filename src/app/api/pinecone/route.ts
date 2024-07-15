@@ -26,6 +26,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false });
   }
 
+  const pinecondeIndex = await pc.createIndex({
+    name: index,
+    dimension: 1536, // Replace with your model dimensions
+    metric: 'euclidean', // Replace with your model metric
+    spec: {
+      serverless: {
+        cloud: 'aws',
+        region: 'us-east-1',
+      },
+    },
+  });
+
+  if (!pinecondeIndex) {
+    return NextResponse.json({ error: "Invalid Index name formate. Do not use spaces and special characters" });
+  }
+
   const clerkUser = await currentUser();
 
   const user = await client.user.findFirst({
@@ -52,17 +68,6 @@ export async function POST(req: NextRequest) {
       appId: app.id,
       name: 'untitled',
       slug: 'untitled',
-    },
-  });
-  await pc.createIndex({
-    name: index,
-    dimension: 1536, // Replace with your model dimensions
-    metric: 'euclidean', // Replace with your model metric
-    spec: {
-      serverless: {
-        cloud: 'aws',
-        region: 'us-east-1',
-      },
     },
   });
 

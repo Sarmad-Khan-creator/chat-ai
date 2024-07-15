@@ -16,6 +16,7 @@ import axios from 'axios';
 import Spinner from '@/components/loader/loader';
 import { toast } from '@/components/ui/use-toast';
 import { isClerkAPIResponseError } from '@clerk/nextjs/errors';
+import { ToastClose } from '@radix-ui/react-toast';
 
 type Props = {
   clerkId: string;
@@ -61,6 +62,12 @@ const ChangeProfileImage = ({ clerkId, imgUrl }: Props) => {
       await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload-image`, {
         method: 'POST',
         body: formData,
+      });
+
+      toast({
+        title: 'Success ✅',
+        description: 'Profile Picture has been uploaded',
+        variant: 'success',
       });
 
       setLoading(false);
