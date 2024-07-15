@@ -26,9 +26,8 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Spinner from '../loader/loader';
-import axios from 'axios';
 import { toast } from '../ui/use-toast';
-import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 type Props = {};
 
@@ -81,6 +80,8 @@ const AddApp = (props: Props) => {
         description: 'App added successfully',
         variant: 'success',
       });
+
+      revalidatePath("/dashboard")
 
       setIsOpen(false);
     } catch (error) {
