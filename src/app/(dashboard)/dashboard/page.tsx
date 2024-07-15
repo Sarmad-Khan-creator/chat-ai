@@ -7,18 +7,19 @@ import Link from "next/link";
 import React from "react";
 
 const Dashboard = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/all-apps`, {
-    method: "GET",
-    next: {
-      tags: ['allApps']
-    }
-  })
+  // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/all-apps`, {
+  //   next: {
+  //     tags: ['allApps']
+  //   }
+  // })
 
-  const apps = await response.json();
+  // const apps = await response.json();
+
+  const apps = await getAllApps()
   return (
     <main className="px-10 flex flex-row flex-wrap gap-x-4 gap-y-6 max-sm:flex-col max-sm:items-center">
       <AddApp />
-      {JSON.parse(apps).map(async (app: App) => {
+      {apps.map(async (app: App) => {
         const user = await client.user.findFirst({
           where: {
             id: app.userId,
