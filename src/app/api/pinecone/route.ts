@@ -99,7 +99,9 @@ export async function POST(req: NextRequest) {
     }
   );
 
-  revalidateTag('/allApps');
+  const url = req.nextUrl.clone();
+
+  revalidatePath(`${url}/dashboard`);
 
   return NextResponse.json({ success: true });
 }
