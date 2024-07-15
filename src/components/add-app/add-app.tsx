@@ -27,7 +27,7 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Spinner from '../loader/loader';
 import { toast } from '../ui/use-toast';
-import { revalidatePath } from 'next/cache';
+// import { revalidatePath } from 'next/cache';
 
 type Props = {};
 
@@ -81,7 +81,7 @@ const AddApp = (props: Props) => {
         variant: 'success',
       });
 
-      revalidatePath("/dashboard")
+      // revalidatePath("/dashboard")
 
       setIsOpen(false);
     } catch (error) {
