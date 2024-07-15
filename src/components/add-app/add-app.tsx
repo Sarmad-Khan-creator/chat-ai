@@ -28,6 +28,7 @@ import { Button } from '../ui/button';
 import Spinner from '../loader/loader';
 import axios from 'axios';
 import { toast } from '../ui/use-toast';
+import { headers } from 'next/headers';
 
 type Props = {};
 
@@ -62,23 +63,30 @@ const AddApp = (props: Props) => {
         formData.append('file', file);
       }
 
-      const app = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, formData);
-      const response = await app.data
+      const app = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          ...headers(),
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const response = await app.json();
       if (response.error) {
         toast({
-          title: "Error ✖️",
+          title: 'Error ✖️',
           description: response.error,
-          variant: "destructive"
-        })
+          variant: 'destructive',
+        });
       }
-      
+
       setIsOpen(false);
     } catch (error) {
       toast({
-        title: "Error ✖️",
-        description: "Something went wrong",
-        variant: "destructive"
-      })
+        title: 'Error ✖️',
+        description: 'Something went wrong',
+        variant: 'destructive',
+      });
     }
   };
 
