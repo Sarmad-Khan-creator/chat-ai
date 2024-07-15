@@ -66,10 +66,6 @@ const AddApp = (props: Props) => {
       const app = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/pinecone`, {
         method: 'POST',
         body: formData,
-        headers: {
-          ...headers(),
-          'Content-Type': 'multipart/form-data',
-        },
       });
       const response = await app.json();
       if (response.error) {
