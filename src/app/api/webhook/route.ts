@@ -88,7 +88,6 @@ export async function POST(req: Request) {
       email: evt.data.email_addresses[0].email_address,
     });
 
-    revalidatePath("/profile")
     return NextResponse.json({ message: "OK", user: updatedUser });
   }
 

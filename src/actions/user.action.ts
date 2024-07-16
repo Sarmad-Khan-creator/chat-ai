@@ -62,7 +62,7 @@ export async function updateUser({
     });
 
     revalidatePath('/profile');
-    return updateUser;
+    return updatedUser;
   } catch (error) {
     console.log(error);
   }
