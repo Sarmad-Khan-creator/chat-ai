@@ -27,6 +27,7 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import Spinner from '../loader/loader';
 import { toast } from '../ui/use-toast';
+import { useRouter } from 'next/navigation';
 // import { revalidatePath } from 'next/cache';
 
 type Props = {};
@@ -34,6 +35,7 @@ type Props = {};
 const AddApp = (props: Props) => {
   const [file, setFile] = useState<File>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const router = useRouter()
 
   const form = useForm<addAppProps>({
     resolver: zodResolver(addAppSchema),
@@ -84,6 +86,7 @@ const AddApp = (props: Props) => {
       // revalidatePath("/dashboard")
 
       setIsOpen(false);
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Error ✖️',

@@ -130,6 +130,8 @@ export const createApp = async ({
     });
 
     revalidatePath("/dashboard")
+
+    return app
   } catch (error) {
     throw error
   }

@@ -13,7 +13,7 @@ const Dashboard = async () => {
     },
   });
 
-  const {apps} = await response.json();
+  const { apps } = await response.json();
 
   // const apps = await getAllApps()
   return (
