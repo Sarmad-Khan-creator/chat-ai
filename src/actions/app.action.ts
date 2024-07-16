@@ -129,7 +129,7 @@ export const createApp = async ({
       },
     });
 
-    revalidateTag("/allApps")
+    revalidatePath("/dashboard")
   } catch (error) {
     throw error
   }
