@@ -1,21 +1,21 @@
-import { getAllApps } from "@/actions/app.action";
-import { getChat } from "@/actions/chat.action";
-import AddApp from "@/components/add-app/add-app";
-import { client } from "@/lib/prisma";
-import { App } from "@prisma/client";
-import Link from "next/link";
-import React from "react";
+import { getAllApps } from '@/actions/app.action';
+import { getChat } from '@/actions/chat.action';
+import AddApp from '@/components/add-app/add-app';
+import { client } from '@/lib/prisma';
+import { App } from '@prisma/client';
+import Link from 'next/link';
+import React from 'react';
 
 const Dashboard = async () => {
-  // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/all-apps`, {
-  //   next: {
-  //     tags: ['allApps']
-  //   }
-  // })
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/all-apps`, {
+    next: {
+      tags: ['allApps'],
+    },
+  });
 
-  // const apps = await response.json();
+  const {apps} = await response.json();
 
-  const apps = await getAllApps()
+  // const apps = await getAllApps()
   return (
     <main className="px-10 flex flex-row flex-wrap gap-x-4 gap-y-6 max-sm:flex-col max-sm:items-center">
       <AddApp />

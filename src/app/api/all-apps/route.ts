@@ -1,18 +1,14 @@
 import { client } from '@/lib/prisma';
-import { currentUser } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const user = await currentUser();
-
-  if (!user) {
-    return NextResponse.json({ success: false });
-  }
+  const user = auth();
 
   try {
     const loggedInUser = await client.user.findFirst({
       where: {
-        clerkId: user?.id,
+        clerkId: user?.userId,
       },
     });
 
@@ -24,6 +20,6 @@ export async function GET() {
 
     return NextResponse.json({ apps });
   } catch (error) {
-    return NextResponse.json({ success: false });
+    throw error
   }
 }
