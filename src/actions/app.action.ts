@@ -3,7 +3,7 @@
 import { pc } from '@/lib/pinecone';
 import { client } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import slugify from 'slugify';
 
 export const getAllApps = async () => {
@@ -129,7 +129,7 @@ export const createApp = async ({
       },
     });
 
-    revalidatePath("/dashboard")
+    revalidateTag("/allApps")
   } catch (error) {
     throw error
   }
