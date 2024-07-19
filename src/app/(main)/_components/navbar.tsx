@@ -12,10 +12,10 @@ const Navbar = (props: Props) => {
   return (
     <nav className="flex items-center justify-between py-5 px-3">
       <div className="flex items-center gap-1">
-        <div className="relative w-[100px] h-[40px]">
+        <div className="relative w-[100px] h-[40px] max-sm:w-[40px]">
           <Image src="/assets/logo.svg" alt="logo" fill />
         </div>
-        <h2 className="text-[#E0A75E] font-bold text-3xl">CHAT-AI</h2>
+        <h2 className="text-[#E0A75E] font-bold text-3xl max-sm:text-2xl">CHAT-AI</h2>
       </div>
       <div></div>
       <div>
